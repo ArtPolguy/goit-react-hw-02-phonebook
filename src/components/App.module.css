@@ -21,3 +21,7 @@
 .submitBtn {
   max-width: 100px;
 }
+.findNameLabel {
+  display: flex;
+  flex-direction: column;
+}

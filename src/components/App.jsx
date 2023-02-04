@@ -4,7 +4,13 @@ import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
-    contacts: [],
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
     name: '',
     number: '',
   };
@@ -13,21 +19,54 @@ export class App extends Component {
 
   handleInputChange = e => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value });
+    this.filterContacts(e.currentTarget.value);
+  };
+
+  filterContacts = () => {
+    const { filter, contacts } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+    if (!filter) {
+      return contacts;
+    }
+    const result = contacts.filter(
+      ({ name, number }) =>
+        name.toLowerCase().includes(normalizedFilter) ||
+        number.includes(normalizedFilter)
+    );
+
+    return result;
   };
 
   handleBtnSubmit = e => {
     e.preventDefault();
-    const { name, number } = this.state;
 
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, { name, number, id: nanoid() }],
-    }));
-
+    this.setState(prevState => {
+      const { name, number, contacts } = prevState;
+      const objContact = {
+        id: nanoid(),
+        name,
+        number,
+      };
+      return {
+        contacts: [...contacts, objContact],
+        name: '',
+        number: '',
+      };
+    });
     console.log(this.state);
   };
 
   render() {
-    const { name, contacts, number } = this.state;
+    const { name, number, filter } = this.state;
+    const contacts = this.filterContacts();
+    const contactList = contacts.map(({ id, name, number }) => {
+      return (
+        <li key={id}>
+          <span>{name}: </span>
+          <span>{number}</span>
+        </li>
+      );
+    });
     return (
       <div className={css.container}>
         <h1 className={css.title}>Phonebook</h1>
@@ -62,11 +101,17 @@ export class App extends Component {
           </button>
         </form>
         <h2>Contacts</h2>
-        <ul>
-          {/* {contacts.map((contact, index) => {
-            return <li key={name}>{contact}</li>;
-          })} */}
-        </ul>
+        <label className={css.findNameLabel}>
+          Find contacts by name:
+          <input
+            className={css.input}
+            type="text"
+            name="filter"
+            value={filter}
+            onChange={this.handleInputChange}
+          />
+        </label>
+        <ul>{contactList}</ul>
       </div>
     );
   }
