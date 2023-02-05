@@ -2,6 +2,7 @@
   margin-top: 10px;
   margin-bottom: 20px;
   max-width: 200px;
+  border-radius: 5px;
 }
 .frame {
   display: flex;
@@ -9,11 +10,20 @@
   outline: 1px solid;
   max-width: 400px;
   padding: 20px;
+  border-radius: 20px;
 }
 .submitBtn {
   max-width: 100px;
+  border-radius: 5px;
+  background-color: #5187ec;
+  border: none;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
 }
 .findNameLabel {
   display: flex;
   flex-direction: column;
+}
+.submitBtn:hover {
+  transform: scale(1.1);
 }

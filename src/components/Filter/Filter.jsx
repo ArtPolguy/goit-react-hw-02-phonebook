@@ -7,7 +7,7 @@ const Filter = ({ filter, handleFilterChange }) => {
       <label className={css.findNameLabel}>
         Find contacts by name:
         <input
-          className={css.input}
+          className={css.inputFilter}
           type="text"
           name="filter"
           value={filter}
