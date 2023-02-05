@@ -15,23 +15,9 @@ export class App extends Component {
     ],
     filter: '',
   };
+
   handleFilterChange = e => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value });
-  };
-
-  filterContacts = () => {
-    const { filter, contacts } = this.state;
-    const normalizedFilter = filter.toLowerCase();
-    if (!filter) {
-      return contacts;
-    }
-    const result = contacts.filter(
-      ({ name, number }) =>
-        name.toLowerCase().includes(normalizedFilter) ||
-        number.includes(normalizedFilter)
-    );
-
-    return result;
   };
 
   handleSubmit = ({ name, number }) => {
@@ -50,16 +36,39 @@ export class App extends Component {
       };
     });
   };
+
+  deleteContact = id => {
+    this.setState(({ contacts }) => {
+      const updateContacts = contacts.filter(contact => contact.id !== id);
+      return { contacts: updateContacts };
+    });
+  };
+
+  filterContacts = () => {
+    const { filter, contacts } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+    if (!filter) {
+      return contacts;
+    }
+    const result = contacts.filter(
+      ({ name, number }) =>
+        name.toLowerCase().includes(normalizedFilter) ||
+        number.includes(normalizedFilter)
+    );
+
+    return result;
+  };
+
   isDublicate = (name, number) => {
     const normalizedName = name.toLowerCase();
     const { contacts } = this.state;
-    const isSameContact = contacts.find(contact => {
+    const sameContact = contacts.find(contact => {
       return (
         contact.name.toLowerCase() === normalizedName &&
         contact.number === number
       );
     });
-    return Boolean(isSameContact);
+    return Boolean(sameContact);
   };
 
   render() {
@@ -71,7 +80,7 @@ export class App extends Component {
         <h1 className={css.title}>Phonebook</h1>
         <ContactForm onSubmit={this.handleSubmit} />
         <Filter filter={filter} handleFilterChange={this.handleFilterChange} />
-        <ContactList contacts={contacts} />
+        <ContactList contacts={contacts} deleteContact={this.deleteContact} />
       </div>
     );
   }
