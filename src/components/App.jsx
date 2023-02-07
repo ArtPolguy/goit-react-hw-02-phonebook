@@ -22,7 +22,8 @@ export class App extends Component {
     this.setState(prevState => {
       const { contacts } = prevState;
       if (this.isDublicate(name, number)) {
-        return alert(`${name} is already in contacts`);
+        alert(`${name} is already in contacts`);
+        return;
       }
       const objContact = {
         id: nanoid(),
@@ -62,7 +63,7 @@ export class App extends Component {
     const { contacts } = this.state;
     const sameContact = contacts.find(contact => {
       return (
-        contact.name.toLowerCase() === normalizedName &&
+        contact.name.toLowerCase() === normalizedName ||
         contact.number === number
       );
     });
