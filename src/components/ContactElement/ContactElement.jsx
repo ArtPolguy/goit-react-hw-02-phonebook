@@ -1,12 +1,18 @@
 import css from './ContactElement.module.css';
 import PropTypes from 'prop-types';
 
-const ContactElement = ({ id, name, number, onClick }) => {
+const ContactElement = ({ id, name, number, deleteContact }) => {
   return (
     <li className={css.contactListItem} key={id}>
       <span>{name}: </span>
       <span>{number}</span>
-      <button className={css.deleteBtn} onClick={onClick} type="button">
+      <button
+        className={css.deleteBtn}
+        onClick={() => {
+          deleteContact(id);
+        }}
+        type="button"
+      >
         Delete
       </button>
     </li>

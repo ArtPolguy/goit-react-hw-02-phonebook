@@ -78,7 +78,10 @@ export class App extends Component {
     return (
       <div className={css.container}>
         <h1 className={css.title}>Phonebook</h1>
-        <ContactForm onSubmit={this.handleSubmit} />
+        <ContactForm
+          onSubmit={this.handleSubmit}
+          isDublicate={this.isDublicate}
+        />
         <Filter filter={filter} handleFilterChange={this.handleFilterChange} />
         {isContacts ? (
           <ContactList contacts={contacts} deleteContact={this.deleteContact} />

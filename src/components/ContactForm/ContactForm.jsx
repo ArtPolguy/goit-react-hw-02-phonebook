@@ -12,13 +12,16 @@ class ContactForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { onSubmit } = this.props;
+    const { onSubmit, isDublicate } = this.props;
+    const { name, number } = this.state;
 
     onSubmit({ ...this.state });
-    this.setState({
-      name: '',
-      number: '',
-    });
+    if (!isDublicate(name, number)) {
+      this.setState({
+        name: '',
+        number: '',
+      });
+    }
   };
 
   handleChange = e => {
