@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { nanoid } from 'nanoid';
 
 import css from './App.module.css';
-import items from './items';
+// import items from './items';
 
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
@@ -10,10 +10,23 @@ import ContactForm from './ContactForm/ContactForm';
 
 export class App extends Component {
   state = {
-    contacts: [...items],
+    contacts: [],
     filter: '',
   };
 
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('save-contacts'));
+    if (contacts?.length) {
+      this.setState({ contacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts.length !== contacts.length) {
+      localStorage.setItem('save-contacts', JSON.stringify(contacts));
+    }
+  }
   handleFilterChange = e => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value });
   };
